@@ -1,64 +1,19 @@
 import express, { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import cors from 'cors';
+
+import UserController from './controller/UserController';
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 
-const prisma = new PrismaClient();
+app.use(cors());
 
-app.get('/users', async (req: Request, res: Response) => {
-  const users = await prisma.cadastro.findMany()
-  return res.status(200).json(users);
-});
+app.get('/users', UserController.getAllUsers);
 
-app.post('/users', async (req: Request, res: Response) => {
-  const body = req.body;
+app.post('/users', UserController.createUser);
 
-  const user = await prisma.cadastro.create({
-    data: {
-      nome: body.nome,
-      endereco: body.endereco,
-      dataNascimento: body.dataNascimento,
-      cpf: body.cpf,
-      telefone: body.telefone,
-      email: body.email,
-    }
-  });
+app.put('/users/:id', UserController.updateUser);
 
-  return res.status(201).json(user)
-});
+app.delete('/users/:id', UserController.deleteUser);
 
-app.put('/users/:id', async (req, res) => {
-  const id = Number(req.params.id);
-  const body = req.body;
-  
-  const updatedUser = await prisma.cadastro.update({
-    where: {
-      id: id,
-    },
-    data: {
-      nome: body.nome,
-      endereco: body.endereco,
-      dataNascimento: body.dataNascimento,
-      cpf: body.cpf,
-      telefone: body.telefone,
-      email: body.email,
-    }
-  });
-
-  return res.status(200).json(updatedUser)
-});
-
-app.delete('/users/:id', async (req, res) => {
-  const id = req.params.id;
-
-  await prisma.cadastro.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  return res.status(200).json({ message: "Usuário deletado!" })
-});
-
-app.listen(3000, () => console.log('Api rodando na porta 3000'))
+app.listen(3000, () => console.log('Api rodando na porta 3000'));
