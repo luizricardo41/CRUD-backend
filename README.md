@@ -19,7 +19,7 @@ Para efetuar o teste localmente, é necessário seguir os passos:
 
 - Clonar a aplicação: 
 
-`git clone git@github.com:luizricardo41/desafio-tecnico-atlas.git`
+`git clone git@github.com:luizricardo41/desafio-tecnico-backend.git`
 
 - Instalar as dependencias do projeto: 
 
