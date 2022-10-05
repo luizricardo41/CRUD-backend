@@ -17,6 +17,9 @@ model Cadastro {
   cpf             String
   telefone        String
   endereco        String
+  status          String
+  cidade          String
+  password        String
   dataNascimento  DateTime
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
